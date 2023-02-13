@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <script src="lessons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="lesson.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <main>
+            <p>
+                <strong>Sort By:</strong>
+                <select v-model="sort">
+                    <option disabled value="">Sort Options</option>
+                    <option v-for="(option,key) in sort_options"
+                    v-bind:value="option">{{option}}</option>
+                </select>
+            </p>
+            <div>
+                <div class="lesson" v-for="lesson in sortedLessons">
+                    <h2 v-text="lesson.subject" style="text-align:center;"></h2>
+                    <hr>
+                    <p>Location: {{lesson.location}}</p>
+                    <p>Price: {{lesson.price}}</p>
+                    <p>Spaces: {{lesson.spaces}}</p>
+                
+                    <img v-bind:src="lesson.image" width="100" height="100 "> <br>  <br>
+                    <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Add to Cart</button>
+                    <button disabled="disabled" v-else>Add to Cart</button>
+                    <span v-if="lesson.spaces === cartCount(lesson.id)">
+                        All Out!
+                    </span>
+                    <span v-else>Buy Now!</span>
+                
+                </div>
+
+                
+            </div>
+        </main>
+    </div>
+
+
+    <script>
+        let webstore = new Vue ({
+            el: '#app',
+            data:{
+             lessons:Lessons,
+             cart: [],
+             sort_options:{
+                    location:"Location",
+                    location_desc:"Location Descending",
+                    price:"Price",
+                    price_desc:"Price Descending",
+                    subject:"Subject",
+                    subject_desc:"Subject Descending",
+                    availaibility:"Avaialability",
+                    availaibility_desc:"Availability Descending"
+                },
+                sort:"Price",
+
+            }
+            ,
+            methods:{
+                addToCart(lesson) {
+                    this.cart.push(lesson.id);
+                        
+                    console.log(this.cart);
+                },
+                canAddToCart(lesson){
+                    return lesson.spaces > this.cartCount(lesson.id);
+                },
+                cartCount(id){
+                    let count=0;
+                    for (let i=0;i<this.cart.length;i++){
+                        if (this.cart[i]===id){
+                            count++;
+                        }
+                    }
+                    return count;
+                }
+
+            },
+        computed: {
+            sortedLessons(){
+                    if (this.sort=="Price"){
+                    let lessonsArray=this.lessons.slice(0);
+                    function compare(a,b){
+                        if (a.price>b.price)
+                        return 1;
+                        if (a.price<b.price)
+                        return -1;
+                        return 0;
+                    }
+                    return lessonsArray.sort(compare);
+                }
+
+                else if (this.sort=="Price Descending"){
+                    let lessonsArray=this.lessons.slice(0);
+                    function compare(a,b){
+                        if (a.price>b.price)
+                        return 1;
+                        if (a.price<b.price)
+                        return -1;
+                        return 0;
+                    }
+                    return lessonsArray.sort(compare).reverse();
+
+
+                }
+            }
+        }});
+    </script>
+</body>
+</html>
