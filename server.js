@@ -2,7 +2,6 @@ const express = require ('express');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
 
-
 app.use(express.json())
 app.set('port',3000)
 app.use((req,res,next)=>{
@@ -11,7 +10,7 @@ app.use((req,res,next)=>{
 })
 
 let db;
-MongoClient.connect('mongodb+srv://andre1105:andre123@cluster0.t0hyzng.mongodb.net', (err, client) => {db = client.db('webstore')})
+MongoClient.connect('mongodb+srv://andre1105:andre123@cluster0.t0hyzng.mongodb.net', (err, client) => {    db = client.db('cw2')})
 
 app.get('/',(req,res,next)=>{
     res.send('Select a Collection, e.g., /collection/messages')
@@ -28,6 +27,11 @@ app.get('/collection/:collectionName',(req,res,next)=>{
         res.send(results)
     })
 })
+app.post('/collection/:collectionName', (req, res, next) => 
+{  req.collection.insertOne(req.body, (e, results) =>
+     {if (e) return next(e)    
+        res.send(results.ops)})
+    })
 
 app.listen(3000,()=>{
 console.log("Express server is running")
