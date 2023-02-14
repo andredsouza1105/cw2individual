@@ -39,19 +39,35 @@ app.post('/collection/:collectionName', (req, res, next) => {
 })
 
 app.put('/collections/:collectionName/:id', function (req, res, next) {
-        // TODO: Validate req.body
-    
-        req.collection.updateOne({ _id: new ObjectId(req.params.id) },
-            { $set: req.body },
-            { safe: true, multi: false }, function (err, result) {
-                if (err) {
-                    return next(err);
-                } else {
-                    res.send((result.matchedCount === 1) ? { msg: "success" } : { msg: "error" });
-                }
+    // TODO: Validate req.body
+
+    req.collection.updateOne({ _id: new ObjectId(req.params.id) },
+        { $set: req.body },
+        { safe: true, multi: false }, function (err, result) {
+            if (err) {
+                return next(err);
+            } else {
+                res.send((result.matchedCount === 1) ? { msg: "success" } : { msg: "error" });
             }
-        );
+        }
+    );
+})
+
+app.get('/collections/:collectionName/:search', function (req, res, next) {
+    // TODO: Validate req.body
+    var search = req.params.search;
+    req.collection.find({
+        "$text": {
+            "$search": search
+        }
+    }).toArray((e, results) => {
+        if (e) return next(e)
+        res.send(results)
+        console.log(results);
     })
+
+});
+
 
 
 

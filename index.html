@@ -217,7 +217,9 @@
                                 console.error("Error:", error);
                             })
 
-
+                            this.cart=[];
+                            alert("Your purchase was successful, have a good day!");
+                            this.showCart();
 
                     },
                     checkName(str) {
@@ -279,12 +281,35 @@
                         return this.cart.length;
                     },
                     sortedLessons() {
-                        if (this.searchValue != "" && this.searchValue) {
-                            let lessonsArray = this.lessons;
-                            lessonsArray = lessonsArray.filter((item) => {
-                                return item.subject.toUpperCase().includes(this.searchValue.toUpperCase()) || item.location.toUpperCase().includes(this.searchValue.toUpperCase());
-                            })
-                            return lessonsArray;
+                        if (this.searchValue != "" && this.searchValue) {   
+                            fetch("http://localhost:3000/collections/lessons/"+this.searchValue).then(
+                        function (response) {
+                            response.json().then(
+                                function (json) {
+                                    webstore.lessons = json;
+                                }
+                            )
+                        }
+                    )
+                    
+                    
+
+                            // let lessonsArray = this.lessons;
+                            // lessonsArray = lessonsArray.filter((item) => {
+                            //     return item.subject.toUpperCase().includes(this.searchValue.toUpperCase()) || item.location.toUpperCase().includes(this.searchValue.toUpperCase());
+                            // })
+                            // return lessonsArray;
+                        }
+                        else{
+                            fetch("http://localhost:3000/collection/lessons").then(
+                        function (response) {
+                            response.json().then(
+                                function (json) {
+                                    webstore.lessons = json;
+                                }
+                            )
+                        }
+                    )
                         }
                         if (this.sort == "Price") {
                             let lessonsArray = this.lessons.slice(0);
