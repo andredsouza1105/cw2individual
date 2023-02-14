@@ -1,7 +1,9 @@
 const express = require ('express');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json())
 app.set('port',3000)
 app.use((req,res,next)=>{
@@ -32,6 +34,10 @@ app.post('/collection/:collectionName', (req, res, next) =>
      {if (e) return next(e)    
         res.send(results.ops)})
     })
+
+
+
+
 
 app.listen(3000,()=>{
 console.log("Express server is running")
