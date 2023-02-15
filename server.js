@@ -85,15 +85,10 @@ app.put('/collections/:collectionName/:id', function (req, res, next) {
 app.get('/collections/:collectionName/:search', function (req, res, next) {
     // TODO: Validate req.body
     var search = req.params.search;
-    req.collection.find({
-        "$text": {
-            "$search": search
-        }
-    }).toArray((e, results) => {
-        if (e) return next(e)
-        res.send(results)
-        
-    })
+    req.collection.find({"subject": {"$regex": search, "$options": "i"}}).toArray((e, results) => {
+        if (e) return next(e);
+        res.send(results);
+    });
 
    
 
