@@ -172,7 +172,7 @@
                                 lessonOrders.push("subject: " + this.lessons[i].subject + " Amt: " + this.cartCount(this.lessons[i].id))
                                 spacesObj = { spaces: this.lessons[i].spaces - this.cartCount(this.lessons[i].id) }
                                 console.log(spacesObj);
-                                fetch("http://localhost:3000/collections/lessons/" + this.lessons[i]._id, {
+                                fetch("http://localhost:3000/collection/lessons/" + this.lessons[i]._id, {
                                     method: "PUT",
                                     headers: {
                                         "Content-Type": "application/json",
@@ -283,7 +283,7 @@
                     },
                     sortedLessons() {
                         if (this.searchValue != "" && this.searchValue) {   
-                            fetch("http://localhost:3000/collections/lessons/"+this.searchValue).then(
+                            fetch("http://localhost:3000/collection/lessons/"+this.searchValue).then(
                         function (response) {
                             response.json().then(
                                 function (json) {

@@ -74,7 +74,7 @@ app.post('/collection/:collectionName', (req, res, next) => {
   
 })
 
-app.put('/collections/:collectionName/:id', function (req, res, next) {
+app.put('/collection/:collectionName/:id', function (req, res, next) {
     // TODO: Validate req.body
 
     req.collection.updateOne({ _id: new ObjectId(req.params.id) },
@@ -90,7 +90,7 @@ app.put('/collections/:collectionName/:id', function (req, res, next) {
    
 })
 
-app.get('/collections/:collectionName/:search', function (req, res, next) {
+app.get('/collection/:collectionName/:search', function (req, res, next) {
     // TODO: Validate req.body
     var search = req.params.search;
     req.collection.find({
