@@ -145,6 +145,7 @@
                             )
                         }
                     )
+                    
                 },
                 methods: {
                     addToCart(lesson) {
@@ -294,11 +295,7 @@
                     
                     
 
-                            // let lessonsArray = this.lessons;
-                            // lessonsArray = lessonsArray.filter((item) => {
-                            //     return item.subject.toUpperCase().includes(this.searchValue.toUpperCase()) || item.location.toUpperCase().includes(this.searchValue.toUpperCase());
-                            // })
-                            // return lessonsArray;
+                          
                         }
                         else{
                             fetch("http://localhost:3000/collection/lessons").then(

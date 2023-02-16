@@ -1,11 +1,14 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
-const { ObjectID } = require("bson");
+
 const ObjectId = require('mongodb').ObjectId
 const cors = require("cors");
 var path = require("path");
 const fs = require('fs');
+
+
+
 
 app.use(cors());
 app.use(express.json())
@@ -14,6 +17,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
 })
+app.use((req, res, next) => {
+    console.log(req.method+" request made to "+req.url);
+    next();
+});
+
 
 let db;
 MongoClient.connect('mongodb+srv://andre1105:andre123@cluster0.t0hyzng.mongodb.net', (err, client) => { db = client.db('cw2') })
@@ -85,10 +93,16 @@ app.put('/collections/:collectionName/:id', function (req, res, next) {
 app.get('/collections/:collectionName/:search', function (req, res, next) {
     // TODO: Validate req.body
     var search = req.params.search;
-    req.collection.find({"subject": {"$regex": search, "$options": "i"}}).toArray((e, results) => {
+    req.collection.find({
+        "$or": [
+            { "subject": { '$regex': search, '$options': 'i' } },
+            { "location": { '$regex': search, '$options': 'i' } }
+        ]}).toArray((e, results) => {
         if (e) return next(e);
         res.send(results);
     });
+
+   
 
    
 
