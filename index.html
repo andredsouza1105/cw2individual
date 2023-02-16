@@ -291,11 +291,7 @@
                                 }
                             )
                         }
-                    )
-                    
-                    
-
-                          
+                    )  
                         }
                         else{
                             fetch("http://localhost:3000/collection/lessons").then(
@@ -308,6 +304,8 @@
                         }
                     )
                         }
+                        
+                        
                         if (this.sort == "Price") {
                             let lessonsArray = this.lessons.slice(0);
                             function compare(a, b) {
